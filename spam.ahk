@@ -4,7 +4,7 @@
 
 SetKeyDelay, 0
 
-InputBox, spam, Rob's Spammer, What would you like to spam? (enter - spam and esc - stop), , 200, 130
+InputBox, spam, Rob's Spammer, What would you like to spam? (enter - spam and esc - stop), , , 130
 if NOT ErrorLevel {
     Enter::
 		send,%spam%
