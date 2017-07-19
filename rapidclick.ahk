@@ -4,21 +4,30 @@
 
 #SingleInstance force
 
-ClickDelay = 50
+EnvGet, AppData, LOCALAPPDATA
+ConfigIni = %AppData%\Rob-AHK-Scripts\config.ini
 
-NumpadAdd::
-ClickDelay = %ClickDelay% - 5
-if (ClickDelay < 5) {
-	ClickDelay = 5
-}
-
-NumpadSub::
-ClickDelay = %ClickDelay% + 5
-
+IfNotExist, %AppData%\Rob-AHK-Scripts
+	FileCreateDir, %AppData%\Rob-AHK-Scripts
+	
+IniRead, ClickDelay, %ConfigIni%, Rapid Click, ClickDelay, 50
 
 if NOT ErrorLevel {
     NumpadEnter::
 		MouseClick,left
 		sleep,%ClickDelay%
+	Return
+
+	NumpadAdd::
+		ClickDelay := ClickDelay - 5
+		if (ClickDelay < 5) {
+			ClickDelay := 5
+		}
+		IniWrite, %ClickDelay%, %ConfigIni%, Rapid Click, ClickDelay 
+	Return
+
+	NumpadSub::
+		ClickDelay := ClickDelay + 5
+		IniWrite, %ClickDelay%, %ConfigIni%, Rapid Click, ClickDelay 
 	Return
 }
